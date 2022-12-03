@@ -4,6 +4,7 @@ import { Input } from "../components/Input";
 import { useFirebaseAuth } from "../contexts/FirebaseAuthContext";
 import DatePicker from "react-datepicker";
 import moment from "moment/moment";
+import { Table } from "../components/Table";
 
 export const Dash = () => {
   const user = useFirebaseAuth();
@@ -45,6 +46,53 @@ export const Dash = () => {
       return null;
     }
   };
+  console.log(data);
+
+  const columns = [
+    {
+      Header: "ID",
+      accessor: "neo_reference_id",
+    },
+    {
+      Header: "Name",
+      accessor: "name",
+    },
+    {
+      Header: "Potentially Hazardous",
+      id: "is_potentially_hazardous_asteroid",
+      accessor: (d) => d.is_potentially_hazardous_asteroid.toString(),
+    },
+    {
+      Header: "Sentry",
+      id: "is_sentry_object",
+      accessor: (d) => d.is_sentry_object.toString(),
+    },
+    {
+      Header: "Min Estimated Diamiter (m)",
+      id: "estimated_diameter.meters.estimated_diameter_min",
+      accessor: (d) =>
+        d.estimated_diameter.meters.estimated_diameter_min.toFixed(1),
+    },
+    {
+      Header: "Max Estimated Diamiter (m)",
+      id: "estimated_diameter.meters.estimated_diameter_max",
+      accessor: (d) =>
+        d.estimated_diameter.meters.estimated_diameter_max.toFixed(1),
+    },
+    {
+      Header: "Date",
+      accessor: "date",
+    },
+  ];
+
+  const handleClick = async (asteroid) => {
+    const { neo_reference_id } = asteroid;
+
+    const data = await query({
+      asteroid_id: neo_reference_id,
+    });
+    console.log(data);
+  };
 
   return (
     <div>
@@ -70,15 +118,13 @@ export const Dash = () => {
       )}
       <div>
         {count && <div>found {count} records</div>}
-
-        {data.map(({ name, id, is_potentially_hazardous_asteroid }) => (
-          <div>
-            neo {name}-
-            {is_potentially_hazardous_asteroid
-              ? "is hazardous"
-              : "is not hazardous"}
-          </div>
-        ))}
+        {data && (
+          <Table
+            onClick={(e) => handleClick(e)}
+            columns={columns}
+            data={data}
+          />
+        )}
       </div>
     </div>
   );
