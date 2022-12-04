@@ -7,6 +7,14 @@ import moment from "moment/moment";
 import { Table } from "../components/Table";
 import { useNavigate, useParams } from "react-router-dom";
 import { useQuery } from "../utils/useQuery";
+import {
+  Cancel,
+  Check,
+  CheckCircle,
+  Close,
+  Done,
+  Warning,
+} from "@styled-icons/material";
 
 export const Dash = () => {
   const user = useFirebaseAuth();
@@ -61,15 +69,16 @@ export const Dash = () => {
       Header: "Name",
       accessor: "name",
     },
+
     {
-      Header: "Potentially Hazardous",
+      Header: "Hazard",
       id: "is_potentially_hazardous_asteroid",
-      accessor: (d) => d.is_potentially_hazardous_asteroid.toString(),
+      accessor: (d) => d.is_potentially_hazardous_asteroid && "yes",
     },
     {
       Header: "Sentry",
       id: "is_sentry_object",
-      accessor: (d) => d.is_sentry_object.toString(),
+      accessor: (d) => d.is_sentry_object && "yes",
     },
     {
       Header: "Min Estimated Diamiter (m)",
