@@ -39,7 +39,7 @@ export const Table = ({ columns, data, onClick, paginate }) => {
   const rowData = paginate ? page : rows;
 
   return (
-    <div className="container">
+    <div className="overflow-x-scroll">
       <table {...getTableProps()}>
         <thead>
           {headerGroups.map((headerGroup) => (
