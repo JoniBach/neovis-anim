@@ -100,12 +100,7 @@ export const Dash = () => {
 
   const handleClick = async (asteroid) => {
     const { neo_reference_id } = asteroid;
-
     goto(`/neo/${neo_reference_id}`);
-    // const data = await query({
-    //   asteroid_id: neo_reference_id,
-    // });
-    // console.log(data);
   };
 
   const handleQuery = () => {
