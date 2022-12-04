@@ -3,37 +3,37 @@
 }
 
 button {
-  @apply font-bold py-2 m-1 px-4 rounded bg-blue-500 text-white;
+  @apply font-bold py-2 m-1 px-4 rounded bg-primary-1 text-white;
 }
 
 select {
-  @apply font-bold py-2 m-1 px-4 rounded bg-blue-500 text-white;
+  @apply font-bold py-2 m-1 px-4 rounded bg-primary-1 text-white;
 }
 
 option {
-  @apply font-light py-2 ml-2 px-4 rounded border-2 bg-white border-blue-500 text-black;
+  @apply font-light py-2 ml-2 px-4 rounded border-2 bg-white border-primary-1 text-black;
 }
 
 label {
-  @apply font-bold py-2 m-1 pl-4 rounded bg-blue-500 text-white;
+  @apply font-bold py-2 m-1 pl-4 rounded bg-primary-1 text-white;
 }
 
 input {
-  @apply font-light py-2 ml-2 px-4 rounded border-2 border-blue-500 text-black;
+  @apply font-light py-2 ml-2 px-4 rounded border-2 border-primary-1 text-black;
 }
 
 table {
   @apply w-full border-collapse;
 }
 td {
-  @apply border-2  border-blue-500 text-left p-3;
+  @apply border-2  border-primary-1 text-left p-3;
 }
 th {
-  @apply border-2 bg-blue-500 border-blue-400 text-white text-left p-3;
+  @apply border-2 bg-primary-1 border-primary-2 text-white text-left p-3;
 }
 tr {
-  @apply hover:bg-blue-50 cursor-pointer;
+  @apply hover:bg-primary-5 cursor-pointer;
 }
 tr:nth-child(even) {
-  @apply bg-blue-100 hover:bg-blue-200 cursor-pointer;
+  @apply bg-primary-4 hover:bg-primary-3 cursor-pointer;
 }
