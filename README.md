@@ -1,74 +1,39 @@
-# Getting Started with Create React App
+# Welcome to NEOvis
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+NEOvis is one page application built in React. 
 
-## Available Scripts
+You can find a live demo here at [neovis.app](https://neovis.app/)
 
-In the project directory, you can run:
+## Usage Guide
 
-### `npm start`
+- Sign Up for an account
+- Log In to your new account
+- Enter the start and end date of the range that you want to search for 
+- Note: There is a range limmit of 7 days on the API call
+- Click submit
+- Wait for the search results to populate in the list
+- Use the pagination at the bottom to flick between pages
+- Click the table headers to sort the table
+- Click on a row to view the up comming and previous passes
+- Click go back to return to the previous page
+- Note: the URL contains the search paramiters you entered. You can use this link to regenerate the same search (or share with someone else to do the same)
+## Setup Guide
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+- clone the repo
+- navigate to the project root directory
+- create a `.env` file in the root directory
+- either: accuire its contents from the author
+- or: register your own credentials following the guide below
+- install packages by running `npm i`
+- start a local development server with `npm start`
+- navigate to [localhost:3000](http://localhost:3000/)
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+## Register your own credentials
 
-### `npm test`
+This app uses `firebase auth` to handle the login flow and `Nasa NeoWs Api` for content
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
-
-### `npm run build`
-
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
-
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
-
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
-
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
-
-### installs used in this project
-
-npm i react-hook-form react-table axios react-router-dom react-chartjs-2 tailwindcss postcss autoprefixer react-intersection-observer firebase react-datepicker
+- Create an API key for [nasa NeoWs API](https://api.nasa.gov/) 
+- Assign to `REACT_APP_NASA_API_KEY` variable in the `.env` file
+- Create a [firebase project](https://cloud.google.com/firestore/docs/client/get-firebase)
+- Register an app and assign the remaining variables to the `.env` file
+- Enable [firebase auth](https://firebase.google.com/docs/auth) in the project console
