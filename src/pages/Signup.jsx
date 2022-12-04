@@ -12,7 +12,7 @@ export const Signup = () => {
   const [password, setPassword] = useState("");
   return (
     <Splash>
-      <h1>Sign In</h1>
+      <h1>Sign Up</h1>
       <Bar>
         <Input
           type="email"
@@ -27,7 +27,7 @@ export const Signup = () => {
           label="password"
         />
         <button onClick={() => signUp({ email, password })}>
-          <Backup size={20} /> sign in
+          <Backup size={20} /> sign up
         </button>
         <button onClick={() => goto("/signin")}>
           {" "}
