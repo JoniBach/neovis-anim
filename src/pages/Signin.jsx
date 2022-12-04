@@ -21,7 +21,7 @@ export const Signin = () => {
           label="email"
         />
         <Input
-          type="passwprd"
+          type="password"
           onChange={(e) => setPassword(e.target.value)}
           value={password}
           label="password"
