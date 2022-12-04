@@ -1,10 +1,33 @@
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import { query } from "../api/neows/neows";
 import { useFirebaseAuth } from "../contexts/FirebaseAuthContext";
 import { Table } from "../components/Table";
 import { useParams } from "react-router-dom";
 import { Logout } from "@styled-icons/material";
 import { signOut } from "../api/user/signOut";
+
+const timeStamp = Date.now();
+
+const columns = [
+  {
+    Header: "Orbiting Body",
+    accessor: "orbiting_body",
+  },
+  {
+    Header: "Close Approach Date",
+    accessor: "close_approach_date_full",
+  },
+  {
+    Header: "Miss Distance (miles)",
+    id: "miss_distance.miles",
+    accessor: (d) => Number(d.miss_distance.miles).toFixed(1),
+  },
+  {
+    Header: "Relative Velocity (Mph)",
+    id: "relative_velocity.miles_per_hour",
+    accessor: (d) => Number(d.relative_velocity.miles_per_hour).toFixed(1),
+  },
+];
 
 export const Neo = () => {
   const user = useFirebaseAuth();
@@ -14,71 +37,49 @@ export const Neo = () => {
   const [count, setCount] = useState(0);
   const [loading, setLoading] = useState(false);
 
-  const handleFetch = async () => {
+  const handleFetch = useCallback(async () => {
     setLoading(true);
     setData(null);
     setCount(null);
-    try {
-      if (id) {
-        const data = await query({
-          asteroid_id: id,
-        });
-        setCount(data.close_approach_data.length);
-        setData(data);
+    if (id) {
+      const data = await query({
+        asteroid_id: id,
+      });
+      setCount(data.close_approach_data.length);
+      setData(data);
 
-        setLoading(false);
-
-        return data;
-      }
-    } catch (error) {
       setLoading(false);
-      return null;
+
+      return data;
     }
-  };
+  }, [id]);
 
-  const columns = [
-    {
-      Header: "Orbiting Body",
-      accessor: "orbiting_body",
-    },
-    {
-      Header: "Close Approach Date",
-      accessor: "close_approach_date_full",
-    },
-    {
-      Header: "Miss Distance (miles)",
-      id: "miss_distance.miles",
-      accessor: (d) => Number(d.miss_distance.miles).toFixed(1),
-    },
-    {
-      Header: "Relative Velocity (Mph)",
-      id: "relative_velocity.miles_per_hour",
-      accessor: (d) => Number(d.relative_velocity.miles_per_hour).toFixed(1),
-    },
-  ];
+  const visitsAfterToday = useMemo(
+    () =>
+      data?.close_approach_data
+        ?.filter(
+          ({ epoch_date_close_approach }, i) =>
+            epoch_date_close_approach > timeStamp
+        )
+        .slice(0, 5),
+    [data?.close_approach_data]
+  );
 
-  const timeStamp = Date.now();
-
-  console.log(timeStamp);
-
-  const visitsAfterToday = data?.close_approach_data
-    ?.filter(
-      ({ epoch_date_close_approach }, i) =>
-        epoch_date_close_approach > timeStamp
-    )
-    .slice(0, 5);
-
-  const visitsBeforeToday = data?.close_approach_data
-    ?.filter(
-      ({ epoch_date_close_approach }, i) =>
-        epoch_date_close_approach < timeStamp
-    )
-    .slice(-5)
-    .reverse();
+  const visitsBeforeToday = useMemo(
+    () =>
+      data?.close_approach_data
+        ?.filter(
+          ({ epoch_date_close_approach }, i) =>
+            epoch_date_close_approach < timeStamp
+        )
+        .slice(-5)
+        .reverse(),
+    [data?.close_approach_data]
+  );
 
   useEffect(() => {
     handleFetch();
-  }, []);
+  }, [handleFetch]);
 
   return (
     <div>

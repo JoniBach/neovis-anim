@@ -10,6 +10,44 @@ import { useQuery } from "../utils/useQuery";
 import { Logout } from "@styled-icons/material";
 import { signOut } from "../api/user/signOut";
 
+const columns = [
+  {
+    Header: "ID",
+    accessor: "neo_reference_id",
+  },
+  {
+    Header: "Name",
+    accessor: "name",
+  },
+
+  {
+    Header: "Hazard",
+    id: "is_potentially_hazardous_asteroid",
+    accessor: (d) => d.is_potentially_hazardous_asteroid && "yes",
+  },
+  {
+    Header: "Sentry",
+    id: "is_sentry_object",
+    accessor: (d) => d.is_sentry_object && "yes",
+  },
+  {
+    Header: "Min Estimated Diamiter (m)",
+    id: "estimated_diameter.meters.estimated_diameter_min",
+    accessor: (d) =>
+      d.estimated_diameter.meters.estimated_diameter_min.toFixed(1),
+  },
+  {
+    Header: "Max Estimated Diamiter (m)",
+    id: "estimated_diameter.meters.estimated_diameter_max",
+    accessor: (d) =>
+      d.estimated_diameter.meters.estimated_diameter_max.toFixed(1),
+  },
+  {
+    Header: "Date",
+    accessor: "date",
+  },
+];
+
 export const Dash = () => {
   const user = useFirebaseAuth();
   const goto = useNavigate();
@@ -52,44 +90,6 @@ export const Dash = () => {
       return null;
     }
   };
-
-  const columns = [
-    {
-      Header: "ID",
-      accessor: "neo_reference_id",
-    },
-    {
-      Header: "Name",
-      accessor: "name",
-    },
-
-    {
-      Header: "Hazard",
-      id: "is_potentially_hazardous_asteroid",
-      accessor: (d) => d.is_potentially_hazardous_asteroid && "yes",
-    },
-    {
-      Header: "Sentry",
-      id: "is_sentry_object",
-      accessor: (d) => d.is_sentry_object && "yes",
-    },
-    {
-      Header: "Min Estimated Diamiter (m)",
-      id: "estimated_diameter.meters.estimated_diameter_min",
-      accessor: (d) =>
-        d.estimated_diameter.meters.estimated_diameter_min.toFixed(1),
-    },
-    {
-      Header: "Max Estimated Diamiter (m)",
-      id: "estimated_diameter.meters.estimated_diameter_max",
-      accessor: (d) =>
-        d.estimated_diameter.meters.estimated_diameter_max.toFixed(1),
-    },
-    {
-      Header: "Date",
-      accessor: "date",
-    },
-  ];
 
   const handleClick = async (asteroid) => {
     const { neo_reference_id } = asteroid;
