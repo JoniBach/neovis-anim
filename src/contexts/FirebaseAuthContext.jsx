@@ -7,15 +7,29 @@ const FirebaseAuthContext = createContext();
 
 const FirebaseAuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
-  const value = { user };
+  const [isLoggedIn, setIsLoggedIn] = useState(null);
+  const [loading, setLoading] = useState(true);
+
+  const handleUser = (usr) => {
+    setLoading(true);
+    setUser(usr);
+    if (usr) {
+      setIsLoggedIn(true);
+      setLoading(false);
+    } else {
+      setIsLoggedIn(false);
+      setLoading(false);
+    }
+    return usr;
+  };
 
   useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, setUser);
+    const unsubscribe = onAuthStateChanged(auth, handleUser);
     return unsubscribe;
   }, []);
 
   return (
-    <FirebaseAuthContext.Provider value={value}>
+    <FirebaseAuthContext.Provider value={{ user, isLoggedIn, loading }}>
       {children}
     </FirebaseAuthContext.Provider>
   );
@@ -28,7 +42,7 @@ function useFirebaseAuth() {
       "useFirebaseAuth must be used within a FirebaseAuthProvider"
     );
   }
-  return context.user;
+  return context;
 }
 
 export { FirebaseAuthProvider, useFirebaseAuth };

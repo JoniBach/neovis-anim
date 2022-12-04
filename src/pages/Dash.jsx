@@ -5,16 +5,10 @@ import { useFirebaseAuth } from "../contexts/FirebaseAuthContext";
 import DatePicker from "react-datepicker";
 import moment from "moment/moment";
 import { Table } from "../components/Table";
-import { useNavigate, useParams } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { useQuery } from "../utils/useQuery";
-import {
-  Cancel,
-  Check,
-  CheckCircle,
-  Close,
-  Done,
-  Warning,
-} from "@styled-icons/material";
+import { Logout } from "@styled-icons/material";
+import { signOut } from "../api/user/signOut";
 
 export const Dash = () => {
   const user = useFirebaseAuth();
@@ -58,7 +52,6 @@ export const Dash = () => {
       return null;
     }
   };
-  console.log(data);
 
   const columns = [
     {
@@ -130,7 +123,9 @@ export const Dash = () => {
 
   return (
     <div>
-      Signed in as {user.email}
+      <button onClick={() => signOut()}>
+        <Logout size={20} /> exit {user.email}
+      </button>
       <DatePicker
         selected={startDate}
         customInput={<Input label="start date" />}

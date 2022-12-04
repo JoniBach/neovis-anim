@@ -3,7 +3,9 @@ import { Dash } from "../pages/Dash";
 import { Neo } from "../pages/Neo";
 import { Signin } from "../pages/Signin";
 import { Signup } from "../pages/Signup";
+import { Protected } from "./Protected";
 import { CustomRouter } from "./Router";
+import { Unprotected } from "./Unprotexted";
 
 export const openRoutes = [
   {
@@ -30,27 +32,38 @@ export const protectedRoutes = [
 export const routes = [
   {
     path: "/dash",
-    element: <Dash />,
+    element: (
+      <Protected>
+        <Dash />
+      </Protected>
+    ),
   },
   {
     path: "/neo/:id",
-    element: <Neo />,
+    element: (
+      <Protected>
+        <Neo />
+      </Protected>
+    ),
   },
   {
     path: "/signin",
-    element: <Signin />,
+    element: (
+      <Unprotected>
+        <Signin />
+      </Unprotected>
+    ),
   },
   {
     path: "/signup",
-    element: <Signup />,
+    element: (
+      <Unprotected>
+        <Signup />
+      </Unprotected>
+    ),
   },
 ];
 
 export const EntryPoint = () => {
-  const user = useFirebaseAuth();
-  if (user === null) {
-    return <CustomRouter routes={openRoutes} />;
-  } else {
-    return <CustomRouter routes={protectedRoutes} />;
-  }
+  return <CustomRouter routes={routes} />;
 };

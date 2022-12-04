@@ -1,16 +1,13 @@
 import { useEffect, useState } from "react";
 import { query } from "../api/neows/neows";
-import { Input } from "../components/Input";
 import { useFirebaseAuth } from "../contexts/FirebaseAuthContext";
-import DatePicker from "react-datepicker";
-import moment from "moment/moment";
 import { Table } from "../components/Table";
-import { useNavigate, useParams } from "react-router-dom";
-import { Timestamp } from "firebase/firestore";
+import { useParams } from "react-router-dom";
+import { Logout } from "@styled-icons/material";
+import { signOut } from "../api/user/signOut";
 
 export const Neo = () => {
   const user = useFirebaseAuth();
-  const goto = useNavigate();
   const { id } = useParams();
 
   const [data, setData] = useState();
@@ -82,9 +79,12 @@ export const Neo = () => {
   useEffect(() => {
     handleFetch();
   }, []);
+
   return (
     <div>
-      <div>Signed in as {user.email}</div>
+      <button onClick={() => signOut()}>
+        <Logout size={20} /> exit {user.email}
+      </button>
       {loading
         ? "fetching data please wait..."
         : data && (

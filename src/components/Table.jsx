@@ -1,30 +1,22 @@
 import {
   ArrowDropDown,
   ArrowDropUp,
-  ArrowLeft,
-  DoubleArrow,
-  FastForward,
   FirstPage,
   KeyboardArrowLeft,
   KeyboardArrowRight,
   LastPage,
 } from "@styled-icons/material";
-import { useState } from "react";
 import { useSortBy, useTable, usePagination } from "react-table";
 import { Input } from "./Input";
 
 export const Table = ({ columns, data, onClick, paginate }) => {
-  const [sorting, setSorting] = useState([]);
   const {
     getTableProps,
     getTableBodyProps,
     headerGroups,
     rows,
     prepareRow,
-    page, // Instead of using 'rows', we'll use page,
-    // which has only the rows for the active page
-
-    // The rest of these things are super handy, too ;)
+    page,
     canPreviousPage,
     canNextPage,
     pageOptions,
