@@ -9,6 +9,7 @@ import { useLocation, useNavigate } from "react-router-dom";
 import { Logout } from "@styled-icons/material";
 import { signOut } from "../api/user/signOut";
 import { flattenArray } from "../utils/flattenArray";
+import { Bar } from "../components/Bar";
 
 const columns = [
   {
@@ -122,48 +123,51 @@ export const Dash = () => {
   };
 
   useEffect(() => {
-    setLoading(true);
-    handleFetch(range).then(({ results, element_count, dates }) => {
-      setData(results);
-      setCount(element_count);
-      setEndDate(dates.end);
-      setStartDate(dates.start);
-      setLoading(false);
-    });
+    if (range?.start && range.end) {
+      setLoading(true);
+      handleFetch(range).then(({ results, element_count, dates }) => {
+        setData(results);
+        setCount(element_count);
+        setEndDate(dates.end);
+        setStartDate(dates.start);
+        setLoading(false);
+      });
+    }
   }, [range]);
 
   return (
     <div>
-      <button onClick={() => signOut()}>
-        <Logout size={20} /> exit {user.email}
-      </button>
-      <DatePicker
-        selected={startDate}
-        customInput={<Input label="start date" />}
-        onChange={(date) => {
-          setStartDate(date);
-        }}
-      />
-      <DatePicker
-        selected={endDate}
-        customInput={<Input label="end date" />}
-        onChange={(date) => {
-          setEndDate(date);
-        }}
-      />
-      <button onClick={() => handleClear()}>clear</button>
+      <Bar>
+        <DatePicker
+          selected={startDate}
+          customInput={<Input label="start date" />}
+          onChange={(date) => {
+            setStartDate(date);
+          }}
+        />
+        <DatePicker
+          selected={endDate}
+          customInput={<Input label="end date" />}
+          onChange={(date) => {
+            setEndDate(date);
+          }}
+        />
+        {loading ? (
+          "fetching data please wait..."
+        ) : (
+          <>
+            <button onClick={() => handleQuery()}>submit</button>
+          </>
+        )}
+        <button onClick={() => handleClear()}>clear</button>
+        <button onClick={() => signOut()}>
+          <Logout size={20} /> exit {user.email}
+        </button>
+      </Bar>
 
-      {loading ? (
-        "fetching data please wait..."
-      ) : (
-        <>
-          <button onClick={() => handleQuery()}>submit</button>
-        </>
-      )}
       <div>
         {data && !loading && (
           <>
-            {count && <div>found {count} records</div>}
             <Table
               onClick={(e) => handleClick(e)}
               columns={columns}

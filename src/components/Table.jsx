@@ -7,6 +7,7 @@ import {
   LastPage,
 } from "@styled-icons/material";
 import { useSortBy, useTable, usePagination } from "react-table";
+import { Bar } from "./Bar";
 import { Input } from "./Input";
 
 export const Table = ({ columns, data, onClick, paginate }) => {
@@ -39,47 +40,52 @@ export const Table = ({ columns, data, onClick, paginate }) => {
   const rowData = paginate ? page : rows;
 
   return (
-    <div className="overflow-x-scroll">
-      <table {...getTableProps()}>
-        <thead>
-          {headerGroups.map((headerGroup) => (
-            <tr {...headerGroup.getHeaderGroupProps()}>
-              {headerGroup.headers.map((column) => (
-                <th {...column.getHeaderProps(column.getSortByToggleProps())}>
-                  <span>
-                    {column.isSorted ? (
-                      column.isSortedDesc ? (
-                        <ArrowDropDown size={25} />
+    <>
+      <div className="overflow-x-scroll">
+        <table {...getTableProps()}>
+          <thead>
+            {headerGroups.map((headerGroup) => (
+              <tr {...headerGroup.getHeaderGroupProps()}>
+                {headerGroup.headers.map((column) => (
+                  <th {...column.getHeaderProps(column.getSortByToggleProps())}>
+                    <span>
+                      {column.isSorted ? (
+                        column.isSortedDesc ? (
+                          <ArrowDropDown size={25} />
+                        ) : (
+                          <ArrowDropUp size={25} />
+                        )
                       ) : (
-                        <ArrowDropUp size={25} />
-                      )
-                    ) : (
-                      ""
-                    )}
-                  </span>
-                  {column.render("Header")}
-                </th>
-              ))}
-            </tr>
-          ))}
-        </thead>
-        <tbody {...getTableBodyProps()}>
-          {rowData.map((row) => {
-            prepareRow(row);
-            return (
-              <tr onClick={() => onClick(row.original)} {...row.getRowProps()}>
-                {row.cells.map((cell) => {
-                  return (
-                    <td {...cell.getCellProps()}>{cell.render("Cell")}</td>
-                  );
-                })}
+                        ""
+                      )}
+                    </span>
+                    {column.render("Header")}
+                  </th>
+                ))}
               </tr>
-            );
-          })}
-        </tbody>
-      </table>
+            ))}
+          </thead>
+          <tbody {...getTableBodyProps()}>
+            {rowData.map((row) => {
+              prepareRow(row);
+              return (
+                <tr
+                  onClick={() => onClick(row.original)}
+                  {...row.getRowProps()}
+                >
+                  {row.cells.map((cell) => {
+                    return (
+                      <td {...cell.getCellProps()}>{cell.render("Cell")}</td>
+                    );
+                  })}
+                </tr>
+              );
+            })}
+          </tbody>
+        </table>
+      </div>
       {paginate && (
-        <div className="pagination">
+        <Bar>
           <button onClick={() => gotoPage(0)} disabled={!canPreviousPage}>
             <FirstPage size={20} />
           </button>{" "}
@@ -125,8 +131,8 @@ export const Table = ({ columns, data, onClick, paginate }) => {
               </option>
             ))}
           </select>
-        </div>
+        </Bar>
       )}
-    </div>
+    </>
   );
 };

@@ -1,10 +1,12 @@
 import { useFirebaseAuth } from "../contexts/FirebaseAuthContext";
 import { Dash } from "../pages/Dash";
+import { Landing } from "../pages/Landing";
 import { Neo } from "../pages/Neo";
 import { Signin } from "../pages/Signin";
 import { Signup } from "../pages/Signup";
 import { Protected } from "./Protected";
 import { CustomRouter } from "./Router";
+import { Splash } from "./Splash";
 import { Unprotected } from "./Unprotexted";
 
 export const openRoutes = [
@@ -30,6 +32,10 @@ export const protectedRoutes = [
 ];
 
 export const routes = [
+  {
+    path: "/",
+    element: <Landing />,
+  },
   {
     path: "/dash",
     element: (

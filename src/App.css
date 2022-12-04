@@ -2,8 +2,12 @@
   /* text-align: center; */
 }
 
+h1 {
+  @apply text-primary-1 font-bold text-4xl my-4;
+}
+
 button {
-  @apply font-bold py-2 m-1 px-4 rounded bg-primary-1 text-white;
+  @apply font-bold py-2 m-1 px-4 rounded bg-primary-1 text-white shadow-md hover:shadow-lg;
 }
 
 select {
@@ -11,29 +15,29 @@ select {
 }
 
 option {
-  @apply font-light py-2 ml-2 px-4 rounded border-2 bg-white border-primary-1 text-black;
-}
-
-label {
-  @apply font-bold py-2 m-1 pl-4 rounded bg-primary-1 text-white;
+  @apply font-light py-2 ml-2 px-4 rounded border-2 bg-white  border-primary-1 text-black;
 }
 
 input {
-  @apply font-light py-2 ml-2 px-4 rounded border-2 border-primary-1 text-black;
+  @apply font-light py-2  px-4 rounded border-2 border-primary-1 text-black;
 }
 
 table {
   @apply w-full border-collapse;
 }
 td {
-  @apply border-2  border-primary-1 text-left p-3;
+  @apply border-2  border-primary-3 text-left p-3;
 }
+
 th {
-  @apply border-2 bg-primary-1 border-primary-2 text-white text-left p-3;
+  @apply border-2 border-primary-2 bg-primary-1 text-white text-left p-3;
 }
 tr {
   @apply hover:bg-primary-5 cursor-pointer;
 }
 tr:nth-child(even) {
   @apply bg-primary-4 hover:bg-primary-3 cursor-pointer;
+}
+.react-datepicker-wrapper {
+  width: auto !important;
 }
