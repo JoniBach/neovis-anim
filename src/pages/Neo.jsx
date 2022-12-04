@@ -2,9 +2,10 @@ import { useCallback, useEffect, useMemo, useState } from "react";
 import { query } from "../api/neows/neows";
 import { useFirebaseAuth } from "../contexts/FirebaseAuthContext";
 import { Table } from "../components/Table";
-import { useParams } from "react-router-dom";
-import { Logout } from "@styled-icons/material";
+import { useNavigate, useParams } from "react-router-dom";
+import { KeyboardArrowLeft, Logout } from "@styled-icons/material";
 import { signOut } from "../api/user/signOut";
+import { Bar } from "../components/Bar";
 
 const timeStamp = Date.now();
 
@@ -31,6 +32,7 @@ const columns = [
 
 export const Neo = () => {
   const user = useFirebaseAuth();
+  const goto = useNavigate();
   const { id } = useParams();
 
   const [data, setData] = useState();
@@ -83,19 +85,31 @@ export const Neo = () => {
 
   return (
     <div>
-      <button onClick={() => signOut()}>
-        <Logout size={20} /> exit {user.email}
-      </button>
+      <Bar>
+        <button onClick={() => goto(-1)}>
+          <KeyboardArrowLeft size={20} /> go back
+        </button>
+        <button onClick={() => signOut()}>
+          <Logout size={20} /> Sign out {user.email}
+        </button>
+        <h5>
+          {loading
+            ? "processing, please wait"
+            : `close approaches for ${data?.name}`}
+        </h5>
+      </Bar>
       {loading
         ? "fetching data please wait..."
         : data && (
             <>
+              <h2>Next 5 passes</h2>
               <Table
                 onClick={(e) => console.log(e)}
                 columns={columns}
                 data={visitsAfterToday}
               />
-              BeforeToday
+              <h2>Previous 5 passes</h2>
+
               <Table
                 onClick={(e) => console.log(e)}
                 columns={columns}

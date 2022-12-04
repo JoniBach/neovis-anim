@@ -32,13 +32,13 @@ const columns = [
     accessor: (d) => d.is_sentry_object && "yes",
   },
   {
-    Header: "Min Estimated Diamiter (m)",
+    Header: "Min Estimated Diameter (m)",
     id: "estimated_diameter.meters.estimated_diameter_min",
     accessor: (d) =>
       d.estimated_diameter.meters.estimated_diameter_min.toFixed(1),
   },
   {
-    Header: "Max Estimated Diamiter (m)",
+    Header: "Max Estimated Diameter (m)",
     id: "estimated_diameter.meters.estimated_diameter_max",
     accessor: (d) =>
       d.estimated_diameter.meters.estimated_diameter_max.toFixed(1),
@@ -135,34 +135,40 @@ export const Dash = () => {
     }
   }, [range]);
 
+  const handleDisplayText = () => {
+    if (loading) return `processing, please wait`;
+    if (data) return `${count} records found`;
+    return "enter dates to get near earth objects ";
+  };
+
+  const displayText = handleDisplayText();
+
   return (
     <div>
       <Bar>
         <DatePicker
           selected={startDate}
-          customInput={<Input label="start date" />}
+          customInput={<Input label="Start Date" />}
           onChange={(date) => {
             setStartDate(date);
           }}
         />
         <DatePicker
           selected={endDate}
-          customInput={<Input label="end date" />}
+          customInput={<Input label="End Date" />}
           onChange={(date) => {
             setEndDate(date);
           }}
         />
-        {loading ? (
-          "fetching data please wait..."
-        ) : (
-          <>
-            <button onClick={() => handleQuery()}>submit</button>
-          </>
-        )}
-        <button onClick={() => handleClear()}>clear</button>
+        {!loading && <button onClick={() => handleQuery()}>Submit</button>}
+        <button onClick={() => handleClear()}>Clear</button>
         <button onClick={() => signOut()}>
-          <Logout size={20} /> exit {user.email}
+          <Logout size={20} /> Sign Out {user.email}
         </button>
+        <h5>
+          {/* {loading ? "fetching data, please wait..." : `${count} records found`} */}
+          {displayText}
+        </h5>
       </Bar>
 
       <div>
