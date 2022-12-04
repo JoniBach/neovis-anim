@@ -9,8 +9,8 @@ export const query = async ({ start_date, end_date, asteroid_id }) => {
     }`,
     {
       params: {
-        start_date: moment(start_date).format("yyyy-MM-DD"),
-        end_date: moment(end_date).format("yyyy-MM-DD"),
+        start_date,
+        end_date,
         api_key: process.env.REACT_APP_NASA_API_KEY,
       },
     }
