@@ -156,6 +156,7 @@ export const Dash = () => {
             onClick={(e) => handleClick(e)}
             columns={columns}
             data={data}
+            paginate
           />
         )}
       </div>
