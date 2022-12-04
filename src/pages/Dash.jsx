@@ -5,10 +5,11 @@ import { useFirebaseAuth } from "../contexts/FirebaseAuthContext";
 import DatePicker from "react-datepicker";
 import moment from "moment/moment";
 import { Table } from "../components/Table";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { useQuery } from "../utils/useQuery";
 import { Logout } from "@styled-icons/material";
 import { signOut } from "../api/user/signOut";
+import { flattenArray } from "../utils/flattenArray";
 
 const columns = [
   {
@@ -51,41 +52,32 @@ const columns = [
 export const Dash = () => {
   const user = useFirebaseAuth();
   const goto = useNavigate();
-  const range = useQuery();
+  const { search } = useLocation();
+
+  const range = useQuery(search);
   const [data, setData] = useState();
 
   const [count, setCount] = useState(0);
   const [startDate, setStartDate] = useState();
   const [endDate, setEndDate] = useState();
   const [loading, setLoading] = useState(false);
+
   const handleFetch = async (dates) => {
-    try {
-      setLoading(true);
-      setData(null);
-      setCount(null);
-      if (dates.start && dates.end) {
-        const { element_count, near_earth_objects } = await query({
-          start_date: dates.start,
-          end_date: dates.end,
-        });
+    if (dates.start && dates.end) {
+      const { element_count, near_earth_objects } = await query({
+        start_date: dates.start,
+        end_date: dates.end,
+      });
 
-        var dataToArr = Object.keys(near_earth_objects).map((key, index) =>
-          near_earth_objects[key].map((nearEarthObject) => ({
-            ...nearEarthObject,
-            date: key,
-          }))
-        );
+      const results = flattenArray(near_earth_objects);
+      setStartDate(new Date(dates.start));
+      setEndDate(new Date(dates.end));
+      setCount(element_count);
+      setData(results);
+      setLoading(false);
 
-        const results = dataToArr.flat(1);
-        setStartDate(new Date(dates.start));
-        setEndDate(new Date(dates.end));
-        setCount(element_count);
-        setData(results);
-        setLoading(false);
-
-        return data;
-      }
-    } catch (error) {
+      return data;
+    } else {
       setLoading(false);
       return null;
     }

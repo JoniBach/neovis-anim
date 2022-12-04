@@ -31,6 +31,9 @@ td {
 th {
   @apply border-2 bg-blue-500 border-blue-400 text-white text-left p-3;
 }
+tr {
+  @apply hover:bg-blue-50 cursor-pointer;
+}
 tr:nth-child(even) {
-  @apply bg-blue-100;
+  @apply bg-blue-100 hover:bg-blue-200 cursor-pointer;
 }
