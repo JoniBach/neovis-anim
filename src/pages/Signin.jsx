@@ -10,6 +10,7 @@ export const Signin = () => {
   const goto = useNavigate();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [error, setError] = useState("");
   return (
     <Splash>
       <h1>Sign In</h1>
@@ -26,7 +27,11 @@ export const Signin = () => {
           value={password}
           label="password"
         />
-        <button onClick={() => signIn({ email, password })}>
+        <button
+          onClick={() =>
+            signIn({ email, password }).catch((e) => setError(e.message))
+          }
+        >
           <Login size={20} /> sign in
         </button>
         <button onClick={() => goto("/signup")}>
@@ -34,6 +39,7 @@ export const Signin = () => {
           <Repeat size={20} /> or sign up
         </button>
       </Bar>
+      {error}
     </Splash>
   );
 };

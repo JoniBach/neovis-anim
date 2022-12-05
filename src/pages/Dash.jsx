@@ -51,23 +51,27 @@ const columns = [
 
 const handleFetch = async (dates) => {
   if (dates.start && dates.end) {
-    const { element_count, near_earth_objects } = await query({
-      start_date: dates.start,
-      end_date: dates.end,
-    });
+    try {
+      const { element_count, near_earth_objects } = await query({
+        start_date: dates.start,
+        end_date: dates.end,
+      });
 
-    const results = flattenArray(near_earth_objects);
+      const results = flattenArray(near_earth_objects);
 
-    const data = {
-      results,
-      element_count,
-      dates: {
-        start: new Date(dates.start),
-        end: new Date(dates.end),
-      },
-    };
+      const data = {
+        results,
+        element_count,
+        dates: {
+          start: new Date(dates.start),
+          end: new Date(dates.end),
+        },
+      };
 
-    return data;
+      return data;
+    } catch (error) {
+      alert(error);
+    }
   } else {
     return null;
   }
@@ -125,13 +129,15 @@ export const Dash = () => {
   useEffect(() => {
     if (range?.start && range.end) {
       setLoading(true);
-      handleFetch(range).then(({ results, element_count, dates }) => {
-        setData(results);
-        setCount(element_count);
-        setEndDate(dates.end);
-        setStartDate(dates.start);
-        setLoading(false);
-      });
+      handleFetch(range)
+        .then(({ results, element_count, dates }) => {
+          setData(results);
+          setCount(element_count);
+          setEndDate(dates.end);
+          setStartDate(dates.start);
+          setLoading(false);
+        })
+        .catch(() => setLoading(false));
     }
   }, [range]);
 

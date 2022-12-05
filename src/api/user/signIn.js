@@ -6,6 +6,6 @@ export const signIn = async ({ email, password }) => {
     const credential = signInWithEmailAndPassword(auth, email, password);
     return credential;
   } catch (error) {
-    console.log(error);
+    throw Error(error);
   }
 };

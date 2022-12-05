@@ -44,17 +44,24 @@ export const Neo = () => {
     setData(null);
     setCount(null);
     if (id) {
-      const data = await query({
-        asteroid_id: id,
-      });
-      setCount(data.close_approach_data.length);
-      setData(data);
+      try {
+        const data = await query({
+          asteroid_id: id,
+        });
+        setCount(data.close_approach_data.length);
+        setData(data);
 
-      setLoading(false);
+        setLoading(false);
 
-      return data;
+        return data;
+      } catch (error) {
+        alert(error);
+        goto(-1);
+
+        return null;
+      }
     }
-  }, [id]);
+  }, [goto, id]);
 
   const visitsAfterToday = useMemo(
     () =>
