@@ -126,8 +126,8 @@ export const chartOptions = {
         label: (datapoint) => {
           return (
             "max diameter:" +
-            datapoint?.raw?.data?.maxDiameter.toFixed(4) +
-            " miles"
+            datapoint?.raw?.data?.maxDiameter.toFixed(1) +
+            "m"
           );
         },
       },
