@@ -1,6 +1,6 @@
-import { Login, Repeat } from "@styled-icons/material";
+import { ChangeCircle, Login, Password, Repeat } from "@styled-icons/material";
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { signIn } from "../api/user/signIn";
 import { Bar } from "../components/Bar";
 import { Input } from "../components/Input";
@@ -39,6 +39,7 @@ export const Signin = () => {
           <Repeat size={20} /> or sign up
         </button>
       </Bar>
+      <Link to={"/reset-password"}>Reset Password</Link>
       {error}
     </Splash>
   );

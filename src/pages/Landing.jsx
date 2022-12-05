@@ -66,20 +66,20 @@ export const Landing = () => {
           <h5>
             {isLoggedIn ? "Welcome back" : "Sign In or Sign Up to get started"}
           </h5>
-          <span></span>
-          <Bar></Bar>
-          {isLoggedIn ? (
-            <>
-              <button onClick={() => goto("/dash")}>Go to dashboard</button>
-              <button onClick={() => signOut()}>Sign out</button>
-              <button onClick={() => setIsDelete(true)}>Delete User</button>
-            </>
-          ) : (
-            <>
-              <button onClick={() => goto("/signin")}>Sign In</button>
-              <button onClick={() => goto("/signup")}>Sign Up</button>
-            </>
-          )}
+          <Bar>
+            {isLoggedIn ? (
+              <>
+                <button onClick={() => goto("/dash")}>Go to dashboard</button>
+                <button onClick={() => signOut()}>Sign out</button>
+                <button onClick={() => setIsDelete(true)}>Delete User</button>
+              </>
+            ) : (
+              <>
+                <button onClick={() => goto("/signin")}>Sign In</button>
+                <button onClick={() => goto("/signup")}>Sign Up</button>
+              </>
+            )}
+          </Bar>
         </>
       )}
     </Splash>
