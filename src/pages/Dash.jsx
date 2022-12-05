@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { query } from "../api/neows/neows";
 import { Input } from "../components/Input";
 import { useFirebaseAuth } from "../contexts/FirebaseAuthContext";
@@ -6,10 +6,21 @@ import DatePicker from "react-datepicker";
 import moment from "moment/moment";
 import { Table } from "../components/Table";
 import { useLocation, useNavigate } from "react-router-dom";
-import { Logout } from "@styled-icons/material";
+import { Logout, Visibility, VisibilityOff } from "@styled-icons/material";
 import { signOut } from "../api/user/signOut";
 import { flattenArray } from "../utils/flattenArray";
 import { Bar } from "../components/Bar";
+import { Bubble, getElementAtEvent } from "react-chartjs-2";
+import {
+  Chart as ChartJS,
+  LinearScale,
+  PointElement,
+  Tooltip,
+  Legend,
+} from "chart.js";
+import useWindowDimensions from "../utils/useWindowDimensions";
+
+ChartJS.register(LinearScale, PointElement, Tooltip, Legend);
 
 const columns = [
   {
@@ -77,7 +88,55 @@ const handleFetch = async (dates) => {
   }
 };
 
+export const chartOptions = {
+  scales: {
+    y: {
+      beginAtZero: true,
+
+      title: {
+        display: true,
+        text: "Miss Distance (miles)",
+      },
+      ticks: {
+        callback: function (value, index, ticks) {
+          return value / 1000000 + " MM";
+        },
+      },
+    },
+    x: {
+      beginAtZero: true,
+
+      title: {
+        display: true,
+        text: "Relative Velocity (miles per hour)",
+      },
+      ticks: {
+        callback: function (value, index, ticks) {
+          return value / 1000 + " K";
+        },
+      },
+    },
+  },
+  plugins: {
+    tooltip: {
+      callbacks: {
+        title: (datapoint) => {
+          return "NEO: " + datapoint[0]?.raw?.data?.name;
+        },
+        label: (datapoint) => {
+          return (
+            "max diameter:" +
+            datapoint?.raw?.data?.maxDiameter.toFixed(4) +
+            " miles"
+          );
+        },
+      },
+    },
+  },
+};
+
 export const Dash = () => {
+  const { width } = useWindowDimensions();
   const user = useFirebaseAuth();
   const goto = useNavigate();
   const { search } = useLocation();
@@ -86,6 +145,14 @@ export const Dash = () => {
   const [startDate, setStartDate] = useState();
   const [endDate, setEndDate] = useState();
   const [loading, setLoading] = useState(false);
+
+  const handleDisplayText = () => {
+    if (loading) return `processing, please wait`;
+    if (data) return `${count} records found`;
+    return "enter dates to get near earth objects ";
+  };
+
+  const displayText = handleDisplayText();
 
   const range = useMemo(
     () =>
@@ -126,6 +193,73 @@ export const Dash = () => {
     setLoading(false);
   };
 
+  const bubbleScale = (size) => {
+    if (size < 2) return 2;
+    if (size > 20) return 50;
+    return size;
+  };
+
+  const multiplier = width / 50;
+
+  const bubbleMultiplier = multiplier;
+
+  const newChartData = {
+    datasets: [
+      {
+        label: "Potentially Hazardous",
+        data: data
+          ?.filter(
+            ({ is_potentially_hazardous_asteroid }) =>
+              is_potentially_hazardous_asteroid === true
+          )
+          ?.map((neo) => ({
+            x: neo.close_approach_data[0].relative_velocity.miles_per_hour,
+            y: neo.close_approach_data[0].miss_distance.miles,
+            r: bubbleScale(
+              neo.estimated_diameter.miles.estimated_diameter_max *
+                bubbleMultiplier
+            ),
+            data: {
+              velocity:
+                neo.close_approach_data[0].relative_velocity.miles_per_hour,
+              miss_distance: neo.close_approach_data[0].miss_distance.miles,
+              maxDiameter: neo.estimated_diameter.miles.estimated_diameter_max,
+              name: neo.name,
+              neo_reference_id: neo.neo_reference_id,
+            },
+          })),
+
+        backgroundColor: "#281dff65",
+      },
+      {
+        label: "Non Hazardous",
+        data: data
+          ?.filter(
+            ({ is_potentially_hazardous_asteroid }) =>
+              is_potentially_hazardous_asteroid === false
+          )
+          ?.map((neo) => ({
+            x: neo.close_approach_data[0].relative_velocity.miles_per_hour,
+            y: neo.close_approach_data[0].miss_distance.miles,
+            r: bubbleScale(
+              neo.estimated_diameter.miles.estimated_diameter_max *
+                bubbleMultiplier
+            ),
+            data: {
+              velocity:
+                neo.close_approach_data[0].relative_velocity.miles_per_hour,
+              miss_distance: neo.close_approach_data[0].miss_distance.miles,
+              maxDiameter: neo.estimated_diameter.miles.estimated_diameter_max,
+              name: neo.name,
+              neo_reference_id: neo.neo_reference_id,
+            },
+          })),
+        backgroundColor: "#66ff0083",
+        // pointStyle: "triangle",
+      },
+    ],
+  };
+
   useEffect(() => {
     if (range?.start && range.end) {
       setLoading(true);
@@ -141,13 +275,8 @@ export const Dash = () => {
     }
   }, [range]);
 
-  const handleDisplayText = () => {
-    if (loading) return `processing, please wait`;
-    if (data) return `${count} records found`;
-    return "enter dates to get near earth objects ";
-  };
-
-  const displayText = handleDisplayText();
+  const chartRef = useRef();
+  const [showChart, setShowChart] = useState(true);
 
   return (
     <div>
@@ -167,19 +296,42 @@ export const Dash = () => {
           }}
         />
         {!loading && <button onClick={() => handleQuery()}>Submit</button>}
+        {!loading && data && (
+          <button onClick={() => setShowChart(!showChart)}>
+            {" "}
+            {showChart ? (
+              <Visibility size={20} />
+            ) : (
+              <VisibilityOff size={20} />
+            )}{" "}
+            Chart
+          </button>
+        )}
         <button onClick={() => handleClear()}>Clear</button>
         <button onClick={() => signOut()}>
           <Logout size={20} /> Sign Out {user.email}
         </button>
-        <h5>
-          {/* {loading ? "fetching data, please wait..." : `${count} records found`} */}
-          {displayText}
-        </h5>
+        <h5>{displayText}</h5>
       </Bar>
 
       <div>
         {data && !loading && (
           <>
+            {showChart && (
+              <div style={{ maxHeight: "95vh", maxWidth: "100vw" }}>
+                <Bubble
+                  ref={chartRef}
+                  onClick={(e) =>
+                    handleClick(
+                      getElementAtEvent(chartRef.current, e)[0]?.element
+                        ?.$context?.raw?.data
+                    )
+                  }
+                  options={chartOptions}
+                  data={newChartData}
+                />
+              </div>
+            )}
             <Table
               onClick={(e) => handleClick(e)}
               columns={columns}
