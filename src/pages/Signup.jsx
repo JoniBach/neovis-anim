@@ -7,6 +7,8 @@ import { Bar } from "../components/Bar";
 import { Input } from "../components/Input";
 import { Splash } from "../components/Splash";
 
+// branch rules test
+
 export const Signup = () => {
   const goto = useNavigate();
   const [error, setError] = useState("");
