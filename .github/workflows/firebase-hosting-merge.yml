@@ -11,20 +11,24 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      - run: npm ci && npm run build
+      - run: npm ci 
+      - name: Run build
+      env:
+        REACT_APP_FIREBASE_API_KEY: '${{ secrets.REACT_APP_FIREBASE_API_KEY }}'
+        REACT_APP_FIREBASE_AUTH_DOMAIN: '${{ secrets.REACT_APP_FIREBASE_AUTH_DOMAIN }}'
+        REACT_APP_FIREBASE_DATABASE_URL: '${{ secrets.REACT_APP_FIREBASE_DATABASE_URL }}'
+        REACT_APP_FIREBASE_PROJECT_ID: '${{ secrets.REACT_APP_FIREBASE_PROJECT_ID }}'
+        REACT_APP_FIREBASE_STORAGE_BUCKET: '${{ secrets.REACT_APP_FIREBASE_STORAGE_BUCKET }}'
+        REACT_APP_FIREBASE_MESSAGING_SENDER_ID: '${{ secrets.REACT_APP_FIREBASE_MESSAGING_SENDER_ID }}'
+        REACT_APP_FIREBASE_APP_ID: '${{ secrets.REACT_APP_FIREBASE_APP_ID }}'
+        REACT_APP_MEASUREMENT_ID: '${{ secrets.REACT_APP_MEASUREMENT_ID }}'
+        REACT_APP_NASA_API_KEY: '${{ secrets.REACT_APP_NASA_API_KEY }}'
+        REACT_APP_NASA_API_URL: '${{ secrets.REACT_APP_NASA_API_URL }}'
+      - run: npm run build
+      - name: Run deploy
       - uses: FirebaseExtended/action-hosting-deploy@v0
         with:
           repoToken: '${{ secrets.GITHUB_TOKEN }}'
           firebaseServiceAccount: '${{ secrets.FIREBASE_SERVICE_ACCOUNT_REACT_NEOWS_01 }}'
           channelId: live
           projectId: react-neows-01
-          REACT_APP_FIREBASE_API_KEY: '${{ secrets.REACT_APP_FIREBASE_API_KEY }}'
-          REACT_APP_FIREBASE_AUTH_DOMAIN: '${{ secrets.REACT_APP_FIREBASE_AUTH_DOMAIN }}'
-          REACT_APP_FIREBASE_DATABASE_URL: '${{ secrets.REACT_APP_FIREBASE_DATABASE_URL }}'
-          REACT_APP_FIREBASE_PROJECT_ID: '${{ secrets.REACT_APP_FIREBASE_PROJECT_ID }}'
-          REACT_APP_FIREBASE_STORAGE_BUCKET: '${{ secrets.REACT_APP_FIREBASE_STORAGE_BUCKET }}'
-          REACT_APP_FIREBASE_MESSAGING_SENDER_ID: '${{ secrets.REACT_APP_FIREBASE_MESSAGING_SENDER_ID }}'
-          REACT_APP_FIREBASE_APP_ID: '${{ secrets.REACT_APP_FIREBASE_APP_ID }}'
-          REACT_APP_MEASUREMENT_ID: '${{ secrets.REACT_APP_MEASUREMENT_ID }}'
-          REACT_APP_NASA_API_KEY: '${{ secrets.REACT_APP_NASA_API_KEY }}'
-          REACT_APP_NASA_API_URL: '${{ secrets.REACT_APP_NASA_API_URL }}'
