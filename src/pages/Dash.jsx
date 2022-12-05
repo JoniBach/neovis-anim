@@ -134,7 +134,6 @@ export const chartOptions = {
     },
   },
 };
-
 export const Dash = () => {
   const { width } = useWindowDimensions();
   const user = useFirebaseAuth();
@@ -199,9 +198,7 @@ export const Dash = () => {
     return size;
   };
 
-  const multiplier = width / 50;
-
-  const bubbleMultiplier = multiplier;
+  const bubbleMultiplier = width / 60000;
 
   const newChartData = {
     datasets: [
@@ -216,14 +213,14 @@ export const Dash = () => {
             x: neo.close_approach_data[0].relative_velocity.miles_per_hour,
             y: neo.close_approach_data[0].miss_distance.miles,
             r: bubbleScale(
-              neo.estimated_diameter.miles.estimated_diameter_max *
+              neo.estimated_diameter.meters.estimated_diameter_max *
                 bubbleMultiplier
             ),
             data: {
               velocity:
                 neo.close_approach_data[0].relative_velocity.miles_per_hour,
               miss_distance: neo.close_approach_data[0].miss_distance.miles,
-              maxDiameter: neo.estimated_diameter.miles.estimated_diameter_max,
+              maxDiameter: neo.estimated_diameter.meters.estimated_diameter_max,
               name: neo.name,
               neo_reference_id: neo.neo_reference_id,
             },
@@ -242,14 +239,14 @@ export const Dash = () => {
             x: neo.close_approach_data[0].relative_velocity.miles_per_hour,
             y: neo.close_approach_data[0].miss_distance.miles,
             r: bubbleScale(
-              neo.estimated_diameter.miles.estimated_diameter_max *
+              neo.estimated_diameter.meters.estimated_diameter_max *
                 bubbleMultiplier
             ),
             data: {
               velocity:
                 neo.close_approach_data[0].relative_velocity.miles_per_hour,
               miss_distance: neo.close_approach_data[0].miss_distance.miles,
-              maxDiameter: neo.estimated_diameter.miles.estimated_diameter_max,
+              maxDiameter: neo.estimated_diameter.meters.estimated_diameter_max,
               name: neo.name,
               neo_reference_id: neo.neo_reference_id,
             },
@@ -277,6 +274,9 @@ export const Dash = () => {
 
   const chartRef = useRef();
   const [showChart, setShowChart] = useState(true);
+
+console.log(data)
+
 
   return (
     <div>
