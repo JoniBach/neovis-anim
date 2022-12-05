@@ -1,4 +1,4 @@
-import { ChangeCircle, Login, Password, Repeat } from "@styled-icons/material";
+import { Login, Repeat } from "@styled-icons/material";
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { signIn } from "../api/user/signIn";

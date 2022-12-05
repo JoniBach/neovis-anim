@@ -1,8 +1,7 @@
-import { ArrowBack, Login, Repeat, Send } from "@styled-icons/material";
+import { ArrowBack, Send } from "@styled-icons/material";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { resetPassword } from "../api/user/resetPassword";
-import { signIn } from "../api/user/signIn";
 import { Bar } from "../components/Bar";
 import { Input } from "../components/Input";
 import { Splash } from "../components/Splash";

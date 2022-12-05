@@ -1,4 +1,4 @@
-import { Backup, Repeat } from "@styled-icons/material";
+import { Repeat } from "@styled-icons/material";
 import { useFormik } from "formik";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";

@@ -1,7 +1,6 @@
 import {
   deleteUser,
   EmailAuthProvider,
-  getAuth,
   reauthenticateWithCredential,
 } from "firebase/auth";
 import { auth } from "../firebase";

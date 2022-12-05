@@ -1,7 +1,5 @@
 import { createUserWithEmailAndPassword } from "firebase/auth";
-import { addDoc, collection } from "firebase/firestore";
-import { auth, db } from "../firebase";
-import { useFormik } from "formik";
+import { auth } from "../firebase";
 
 export const signUp = async ({ email, password }) => {
   try {

@@ -1,4 +1,4 @@
-import { getAuth, signOut as signOutOfFirebase } from "firebase/auth";
+import { signOut as signOutOfFirebase } from "firebase/auth";
 import { auth } from "../firebase";
 
 export const signOut = async () => {
