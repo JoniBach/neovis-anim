@@ -27,8 +27,8 @@ jobs:
         run: npm run build
       - name: Run deploy
         uses: FirebaseExtended/action-hosting-deploy@v0
-          with:
-            repoToken: '${{ secrets.GITHUB_TOKEN }}'
-            firebaseServiceAccount: '${{ secrets.FIREBASE_SERVICE_ACCOUNT_REACT_NEOWS_01 }}'
-            channelId: live
-            projectId: react-neows-01
+        with:
+          repoToken: '${{ secrets.GITHUB_TOKEN }}'
+          firebaseServiceAccount: '${{ secrets.FIREBASE_SERVICE_ACCOUNT_REACT_NEOWS_01 }}'
+          channelId: live
+          projectId: react-neows-01
