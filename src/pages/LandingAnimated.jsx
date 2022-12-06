@@ -16,7 +16,6 @@ import { removeUser } from "../api/user/deleteUser";
 import { signOut } from "../api/user/signOut";
 import { Bar } from "../components/Bar";
 import { Input } from "../components/Input";
-import { Splash } from "../components/Splash";
 import { useFirebaseAuth } from "../contexts/FirebaseAuthContext";
 
 export const LandingAnimated = () => {
