@@ -37,3 +37,22 @@ This app uses `firebase auth` to handle the login flow and `Nasa NeoWs Api` for 
 - Create a [firebase project](https://cloud.google.com/firestore/docs/client/get-firebase)
 - Register an app and assign the remaining variables to the `.env` file
 - Enable [firebase auth](https://firebase.google.com/docs/auth) in the project console
+
+##  Understanding the component tree
+
+Start
+ - index -> App -> EntryPoint -> CustomRouter (unnecessarily nested)
+
+Root
+- LandingAnimated `/` (an animated welcome page)
+
+Unprotected Routes
+- Signin `/signin`
+- Signup `/signup`
+- PasswordReset `/reset-password`
+- DeleteUser `/delete-account`
+
+Protected Routes
+- Dash `/dash` (fetch and get a list of all NEOs based on a date input)
+- Neo `/neo` (displau recent 5 and previous 5 encounters with a NEO given an ID )
+
