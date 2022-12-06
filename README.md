@@ -56,3 +56,12 @@ Protected Routes
 - Dash `/dash` (fetch and get a list of all NEOs based on a date input)
 - Neo `/neo` (displau recent 5 and previous 5 encounters with a NEO given an ID )
 
+## Personal comments
+
+I was challenged to use Nasa's neoWs api to make a dashboard for viewing near earth objects.
+
+I was given the optional challenge of producing a login flow for users
+
+In addition, I extended the challenge to include an animated parralax landing page using `spring` and included some visualisation of the request data
+
+I also hosted the end product and generated a CI CD pipeline to simplify deployments.
