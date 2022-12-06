@@ -2,6 +2,10 @@
   /* text-align: center; */
 }
 
+u {
+  @apply font-bold text-sm mr-2;
+}
+
 h1 {
   @apply text-primary-2 font-bold text-4xl my-4;
 }

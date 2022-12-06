@@ -1,4 +1,5 @@
 import { Dash } from "../pages/Dash";
+import { DeleteUser } from "../pages/DeleteUser";
 import { LandingAnimated } from "../pages/LandingAnimated";
 import { Neo } from "../pages/Neo";
 import { PasswordReset } from "../pages/PasswordReset";
@@ -51,6 +52,14 @@ export const routes = [
       <Unprotected>
         <PasswordReset />
       </Unprotected>
+    ),
+  },
+  {
+    path: "/delete-account",
+    element: (
+      <Protected>
+        <DeleteUser />
+      </Protected>
     ),
   },
 ];
