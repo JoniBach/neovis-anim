@@ -54,7 +54,7 @@ Unprotected Routes
 
 Protected Routes
 - Dash `/dash` (fetch and get a list of all NEOs based on a date input)
-- Neo `/neo` (displau recent 5 and previous 5 encounters with a NEO given an ID )
+- Neo `/neo` (displu next 5 and previous 5 encounters with a NEO given an ID )
 
 ## Personal comments
 
