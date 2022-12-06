@@ -1,5 +1,4 @@
 import { Dash } from "../pages/Dash";
-import { Landing } from "../pages/Landing";
 import { LandingAnimated } from "../pages/LandingAnimated";
 import { Neo } from "../pages/Neo";
 import { PasswordReset } from "../pages/PasswordReset";
