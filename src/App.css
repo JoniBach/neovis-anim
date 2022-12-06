@@ -3,11 +3,11 @@
 }
 
 h1 {
-  @apply text-primary-1 font-bold text-4xl my-4;
+  @apply text-primary-2 font-bold text-4xl my-4;
 }
 
 h2 {
-  @apply text-primary-1 font-bold text-xl my-2;
+  @apply text-primary-2 font-bold text-xl my-2;
 }
 
 h5 {
@@ -38,10 +38,10 @@ td {
 }
 
 th {
-  @apply border-2 border-primary-2 bg-primary-1 text-white text-left p-3;
+  @apply border-2 border-primary-1 bg-primary-1 text-white text-left p-3;
 }
 tr {
-  @apply hover:bg-primary-5 cursor-pointer;
+  @apply hover:bg-primary-3 cursor-pointer;
 }
 tr:nth-child(even) {
   @apply bg-primary-4 hover:bg-primary-3 cursor-pointer;
